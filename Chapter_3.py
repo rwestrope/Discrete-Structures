@@ -1,7 +1,7 @@
 #cashiers algorithm
 
 BeverageMenu = {
-    "Water: $1.00": 1,
+    "Water: $": "1.00",
     "Dr. Pepper": "$2.00",
     "Coca-Cola": "$2.00",
     }
@@ -59,7 +59,7 @@ def GetUserTotal():
     for beverage, cost in BeverageMenu.items():
         if beverage == user_beverage:
             print(cost)
-            beverage_cost = cost
+            beverage_cost = int(cost)
             return beverage_cost
 
 
