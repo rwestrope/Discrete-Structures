@@ -56,10 +56,12 @@ def GetDesserts():
     return user_dessert
 
 def GetUserTotal():
-    if user_beverage in BeverageMenu():
-        print("hi")
-        #beverage_cost = 
-    #user_total = 
+    for beverage, cost in BeverageMenu.items():
+        if beverage == user_beverage:
+            print(cost)
+            beverage_cost = cost
+            return beverage_cost
+
 
 
 if __name__ == "__main__":
@@ -67,3 +69,4 @@ if __name__ == "__main__":
     GetBurgers()
     GetSides()
     GetDesserts()
+    GetUserTotal()
