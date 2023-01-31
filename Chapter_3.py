@@ -2,8 +2,8 @@
 
 BeverageMenu = {
     "Water: $": "1.00",
-    "Dr. Pepper: $": "2.00",
-    "Coca-Cola: $": "2.00",
+    "Dr Pepper: $": "2.00",
+    "Coca Cola: $": "2.00",
     }
 BurgerMenu = {
     "Classic Burger: $": "7.00",
@@ -23,36 +23,37 @@ DessertMenu = {
     "Brownie: $": "2.50"
     }
 
+
 def GetBeverages():
     global user_beverage
     print("Beverages:")
     for beverage, price in BeverageMenu.items():
         print(beverage, price)
-    user_beverage = input("Choose a beverage\n:")
+    user_beverage = input("Choose a beverage\n:").title()
     return user_beverage
-
+    
 def GetBurgers():
     global user_burger
     print("\nBurgers")
     for burger, price in BurgerMenu.items():
         print(burger, price)
-    user_burger = input("Choose a beverage\n:")
+    user_burger = input("Choose a burger\n:").title()
     return user_burger
-
+    
 def GetSides():
     global user_side
     print("\nSides")
     for side, price in SideMenu.items():
         print(side, price)
-    user_side = input("Choose a beverage\n:")
+    user_side = input("Choose a side\n:").title()
     return user_side
-
+    
 def GetDesserts():
     global user_dessert
     print("\nDesserts")
     for dessert, price in DessertMenu.items():
         print(dessert, price)
-    user_dessert = input("Choose a beverage\n:")
+    user_dessert = input("Choose a dessert\n:").title()
     return user_dessert
 
 def GetUserTotal():
@@ -64,25 +65,32 @@ def GetUserTotal():
     dessert_cost = 0
     for beverage, cost in BeverageMenu.items():
         if beverage.replace(": $", "") == user_beverage:
-            
             print(f"The cost of your beverage is ${cost}")
             beverage_cost += float(cost)
-            
+    if beverage_cost == 0:
+        print("You didn't choose a beverage from the menu.")
+                
     for burger, cost in BurgerMenu.items():
         if burger.replace(": $", "") == user_burger:
             print(f"The cost of your burger is ${cost}")
-            burger_cost += float(cost)
+            burger_cost += float(cost)      
+    if burger_cost == 0:
+        print("You didn't choose a burger from the menu.")
             
     for side, cost in SideMenu.items():
         if side.replace(": $", "") == user_side:
             print(f"The cost of your side is ${cost}")
-            side_cost += float(cost)
-            
+            side_cost += float(cost)          
+    if side_cost == 0:
+        print("You didn't choose a side from the menu.")
+                
     for dessert, cost in DessertMenu.items():
         if dessert.replace(": $", "") == user_dessert:
             print(f"The cost of your dessert is ${cost}")
-            dessert_cost += float(cost)
-            
+            dessert_cost += float(cost)         
+    if dessert_cost == 0:
+        print("You didn't choose a dessert from the menu.")
+                
     total_cost = beverage_cost + burger_cost + side_cost + dessert_cost
     print(f"Your total cost is ${total_cost:.2f}")
     
@@ -128,6 +136,7 @@ def CashiersAlgorithm(cost, payment):
 
 
 if __name__ == "__main__":
+    
     GetBeverages()
     GetBurgers()
     GetSides()
