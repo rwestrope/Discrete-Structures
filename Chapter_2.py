@@ -44,7 +44,7 @@ def TestUserAnswer():
     else:
         print("Sorry, that's not right. Better luck next time.")
 
-def PlayAgainOption():
+def PlayAgain():
     global play_game
     print("Would you like to play again?")
     play_again = input(":")
@@ -62,4 +62,4 @@ if __name__ == "__main__":
         SelectSequence()
         GetUserAnswer()
         TestUserAnswer()
-        PlayAgainOption()
+        PlayAgain()
