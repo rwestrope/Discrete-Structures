@@ -57,7 +57,7 @@ def GetDesserts():
 
 def GetUserTotal():
     global user_dessert, user_beverage, user_burger, user_side, total_cost
-    #global total_cost, beverage_cost, burger_cost, side_cost, dessert_cost
+    
     beverage_cost = 0
     burger_cost = 0
     side_cost = 0
@@ -84,8 +84,46 @@ def GetUserTotal():
             dessert_cost += float(cost)
             
     total_cost = beverage_cost + burger_cost + side_cost + dessert_cost
-    print(f"Your total cost is ${total_cost}")
+    print(f"Your total cost is ${total_cost:.2f}")
     
+def GetUserPayment():
+    global user_payment
+    user_payment = float(input("What are you going to pay? (in cash)\n:"))
+    return user_payment
+
+def CashiersAlgorithm(cost, payment):
+    change1 = payment - cost
+    change = payment - cost
+    ten_dollars = 0
+    five_dollars = 0
+    dollars = 0
+    quarters = 0
+    dimes = 0
+    nickels = 0
+    pennies = 0
+    while change > 0:
+        if change >= 10:
+            ten_dollars += 1
+            change -= 10
+        elif change >= 5:
+            five_dollars += 1
+            change -= 5
+        elif change >= 1:
+            dollars += 1
+            change -= 1
+        elif change >= 0.25:
+            quarters += 1
+            change -= 0.25
+        elif change >= 0.1:
+            dimes += 1
+            change -= 0.1
+        elif change >= 0.05:
+            nickels += 1
+            change -= 0.05
+        elif change >= 0.01:
+            pennies += 1
+            change -= 0.01
+    print(f"Your change will be ${change1:.2f}.\n You will get {ten_dollars} ten dollar bill(s), {five_dollars} five dollar bill(s), {dollars} dollar bill(s), {quarters} quarter(s), {dimes} dime(s), {nickels} nickel(s), and {pennies} pennie(s).")
 
 
 
@@ -95,3 +133,5 @@ if __name__ == "__main__":
     GetSides()
     GetDesserts()
     GetUserTotal()
+    GetUserPayment()
+    CashiersAlgorithm(total_cost, user_payment)
