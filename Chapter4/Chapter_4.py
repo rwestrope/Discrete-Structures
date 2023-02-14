@@ -2,24 +2,13 @@
 #Make a log plot of the number of primes less than ten, one hundred, a thousand, ten thousand, a hundred thousand and a million. 
 #Predict the number of primes less than 10 million
 
-'''
-def is_prime(number):
-    if number <= 1:
-        return False
-    if number == 2:
-        return True
-    if number % 2 == 0:
-        return False
-    limit = floor(sqrt(number)) + 1
-    for i in range(3, limit, 2):
-        if number % i == 0:
-            return False
-    return True
-'''
+
 
 import math
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+
 
 given_numbers = []
 num_of_primes = []
@@ -39,23 +28,35 @@ def count_primes(number):
     return count
 
 def add_to_lists():
+    global given_numbers, num_of_primes
     num = int(input("Enter a number: "))
     given_numbers.append(num)
     
     num_of_primes.append(count_primes(num))
+    return given_numbers, num_of_primes
     
     
+def create_log_plot():
+    log_plot = pd.DataFrame({'x': given_numbers, 'y': num_of_primes})
+    xlog = np.log(log_plot.x)
+    ylog = np.log(log_plot.y)
+    plt.scatter(xlog, ylog)
+
+    plt.show()
+
+
 
 if __name__ == '__main__':
 
 
-    
-
-
-    while len(given_numbers) < 5:
+    while len(given_numbers) < 4:
         add_to_lists()
 
     print(given_numbers)
     print(num_of_primes)
     
+    create_log_plot()
+    
+    
+
     
