@@ -11,9 +11,9 @@ print(f"There are {len(combinations)} combinations of {num_cookies} cookies from
 for cookie in cookie_types:
     print(cookie)
 
-bad_cookie = input("If there is a cookie in the list above that you don't want to include, enter it below\nIf not, just press enter\n:")
+bad_cookie = input("Choose a cookie that you don't want to include in any of the combinations\n:")
 
-good_cookie = input("If there is a cookie in the list above that you want to include in every combination, enter it below\nIf not, just press enter\n:")
+good_cookie = input("Choose a cookie that you want to include in every combination\n:")
 
 bad_cookie_list = []
 good_cookie_list = []
