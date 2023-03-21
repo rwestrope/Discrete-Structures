@@ -41,7 +41,7 @@ def fibonacci_iterative(num):
 
 if __name__ == '__main__':
 
-    print(fibonacci_iterative(100000))
+    print(fibonacci_iterative(12))
 
     end_time = time.time()
     total_time = end_time - start_time
