@@ -1,6 +1,6 @@
 import random
 
-switch = False
+switch = True
 
 def get_normal_door(host, player_door):
     door = 0
