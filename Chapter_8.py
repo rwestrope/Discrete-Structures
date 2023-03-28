@@ -1,4 +1,7 @@
 from math import sqrt
+import multiprocessing as mp
+import time
+
 '''
 use fibonacci to make a list of fibonacci numbers (for loop would be nice)
 use sieve to check which of those numbers is prime
@@ -41,18 +44,46 @@ def prime_checker(checklist, primelist):
     
     return primelist
 
+def implementing_pools(num_processes, chunk_size, prime_fibonaccis):
+    with mp.Pool(num_processes) as pool:
+        results = []
+        for i in range(num_processes):
+            start = i * chunk_size
+            end = start + chunk_size
+            chunk = fibonacci_sequence[start:end]
+            result = pool.apply_async(prime_checker, args=(chunk, []))
+            results.append(result)
+
+        for result in results:
+            primes = result.get()
+            prime_fibonaccis += primes
+
+
+
 
 if __name__ == "__main__":
 
     prime_fibonaccis = []
 
     fib_nums = int(input("How many fibonacci numbers do you want to generate?\n:"))
+
+    start_time = time.time()
+
     fibonacci_sequence = fibonacci(fib_nums)
     #print(fibonacci_sequence)
 
+    num_processes = 8  # number of worker processes
+    chunk_size = len(fibonacci_sequence) // num_processes
+
     prime_checker(fibonacci_sequence, prime_fibonaccis)
+
+    #implementing_pools(num_processes, chunk_size, prime_fibonaccis)
 
     print(f"Out of {fib_nums} fibonacci numbers, {len(prime_fibonaccis)} were prime.")
     print("The prime fibonacci numbers were:")
     for number in prime_fibonaccis:
         print(number)
+
+    print("--- %s seconds ---" % (time.time() - start_time))
+
+    
