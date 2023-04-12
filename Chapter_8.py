@@ -72,12 +72,12 @@ if __name__ == "__main__":
     fibonacci_sequence = fibonacci(fib_nums)
     #print(fibonacci_sequence)
 
-    num_processes = 8  # number of worker processes
+    num_processes = 60  # number of worker processes
     chunk_size = len(fibonacci_sequence) // num_processes
 
-    prime_checker(fibonacci_sequence, prime_fibonaccis)
+    #prime_checker(fibonacci_sequence, prime_fibonaccis)
 
-    #implementing_pools(num_processes, chunk_size, prime_fibonaccis)
+    implementing_pools(num_processes, chunk_size, prime_fibonaccis)
 
     print(f"Out of {fib_nums} fibonacci numbers, {len(prime_fibonaccis)} were prime.")
     print("The prime fibonacci numbers were:")
