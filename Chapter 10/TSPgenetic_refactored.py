@@ -5,10 +5,10 @@ import multiprocessing as mp
 #this is where we load in the csv data
 distances = np.loadtxt('500.csv', delimiter=',')
 
-population_size = 60
+population_size = 50
 population = [np.random.permutation(500) for _ in range(population_size)]
 
-num_generations = 100
+num_generations = 60
 mutation_rate = 0.03
 num_parents = 2
 
