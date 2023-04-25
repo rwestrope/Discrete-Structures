@@ -50,11 +50,11 @@ class Environment:
         num_of_gray_mice = int(num_of_mice/2)
 
         for mouse in range(num_of_brown_mice):
-            new_mouse = Mouse("CC", "FF")
+            new_mouse = Child("CC", "FF")
             self.add_mouse(new_mouse)
 
         for mouse in range(num_of_gray_mice):
-            new_mouse = Mouse("cc", "ff")
+            new_mouse = Child("cc", "ff")
             self.add_mouse(new_mouse)
 
     def add_children(self):
@@ -65,7 +65,7 @@ class Environment:
         for mouse in range(0, len(adult_mice), 2):
             num_children = random.randint(6, 8)
             for _ in range(num_children):
-                child = random.choice(self.__mice).generate_child(self)
+                child = (random.choice(self.get_mice())).generate_child(self)
                 self.__mice.append(child)
 
     def simulate_generation(self):
@@ -119,39 +119,11 @@ class Environment:
 
 
 
-class Mouse:
+class Child:
     def __init__(self, color_genes, food_cache_genes):
         self.color_genes = color_genes
         self.food_cache_genes = food_cache_genes
-        self.__survive = True
-
-    def random_gene_select(self):
-        color_gene_select = random.randint(1,2)
-        if color_gene_select == 1:
-            color_gene = self.color_genes[0]
-        elif color_gene_select == 2:
-            color_gene = self.color_genes[1]
-
-        food_gene_select = random.randint(1,2)
-        if food_gene_select == 1:
-            food_gene = self.food_cache_genes[0]
-        elif food_gene_select == 2:
-            food_gene = self.food_cache_genes[1]
-
-        return color_gene, food_gene
-    
-    def generate_child(self, environment):
-        eligible_mice = [mouse for mouse in environment.get_mice() if not isinstance(mouse, Child)]
-        if len(eligible_mice) < 2:
-            return None  # not enough eligible mice to produce a child
-        parent1, parent2 = random.sample(eligible_mice, 2)
-        color_gene1, food_gene1 = parent1.random_gene_select()
-        color_gene2, food_gene2 = parent2.random_gene_select()
-        #child_color_genes = random.choice([color_gene1, color_gene2])
-        #child_food_genes = random.choice([food_gene1, food_gene2])
-        child_color_genes = [color_gene1, color_gene2]
-        child_food_genes = [food_gene1, food_gene2]
-        return Child(child_color_genes, child_food_genes)
+        self.__survive = True    
     
     def get_survive(self):
         return self.__survive
@@ -179,19 +151,18 @@ class Mouse:
         elif 'C' in self.color_genes and environment.get_terrain() == 'grassy':
             self.twenty_five_percent_chance()
         elif self.color_genes == 'cc' and environment.get_terrain() == 'grassy':
-            self.fifty_fifty_chance()
-        
+            self.fifty_fifty_chance()    
 
 
 
-class Child(Mouse):
+class Mouse(Child):
     def __init__(self, color_genes, food_cache_genes):
         self.color_genes = color_genes
         self.food_cache_genes = food_cache_genes
         self.__survive = True
 
     def get_survive(self):
-        return self.__survive
+        return self.__survive    
 
     def one_third_chance(self):
         survival_chance = random.randint(1, 3)
@@ -206,7 +177,7 @@ class Child(Mouse):
             self.__survive = True
         elif survival_chance in range(3, 5):
             self.__survive = False
-            
+
     def set_survive(self, environment):
         #elimination based on color
         if 'C' in self.color_genes and environment.get_terrain() == 'sandy':
@@ -216,9 +187,35 @@ class Child(Mouse):
         elif 'C' in self.color_genes and environment.get_terrain() == 'grassy':
             self.two_fifth_chance()           
         elif 'c' in self.color_genes and environment.get_terrain() == 'grassy':
-            self.twenty_five_percent_chance()
+            self.twenty_five_percent_chance()   
 
+    def random_gene_select(self):
+        color_gene_select = random.randint(1,2)
+        if color_gene_select == 1:
+            color_gene = self.color_genes[0]
+        elif color_gene_select == 2:
+            color_gene = self.color_genes[1]
 
+        food_gene_select = random.randint(1,2)
+        if food_gene_select == 1:
+            food_gene = self.food_cache_genes[0]
+        elif food_gene_select == 2:
+            food_gene = self.food_cache_genes[1]
+
+        return color_gene, food_gene  
+
+    def generate_child(self, environment):
+        eligible_mice = [mouse for mouse in environment.get_mice() if not isinstance(mouse, Child)]
+        if len(eligible_mice) < 2:
+            return None  # not enough eligible mice to produce a child
+        parent1, parent2 = random.sample(eligible_mice, 2)
+        color_gene1, food_gene1 = parent1.random_gene_select()
+        color_gene2, food_gene2 = parent2.random_gene_select()
+        #child_color_genes = random.choice([color_gene1, color_gene2])
+        #child_food_genes = random.choice([food_gene1, food_gene2])
+        child_color_genes = [color_gene1, color_gene2]
+        child_food_genes = [food_gene1, food_gene2]
+        return Child(child_color_genes, child_food_genes)
 
 
 def main():
