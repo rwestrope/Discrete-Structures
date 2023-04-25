@@ -60,12 +60,12 @@ class Environment:
     def add_children(self):
         adult_mice = []
         for mouse in self.get_mice():
-            if isinstance(mouse, Mouse):
+            if not isinstance(mouse, Child):
                 adult_mice.append(mouse)
         for mouse in range(0, len(adult_mice), 2):
             num_children = random.randint(6, 8)
             for _ in range(num_children):
-                child = (random.choice(self.get_mice())).generate_child(self)
+                child = random.choice(self.get_mice()).generate_child(self)
                 self.__mice.append(child)
 
     def simulate_generation(self):
@@ -107,6 +107,12 @@ class Environment:
                 if isinstance(mouse, Child):
                     mouse.__class__ = Mouse
 
+            for mouse in self.get_mice():
+                mouse.mature()
+                if mouse.generation >= 1:
+                    mouse.__class__ = Mouse
+
+
             generation_count += 1
             print(f"After {generation_count} generation...")
             print(f"There are now {len(self.get_mice())} mice in the environment.")
@@ -123,7 +129,8 @@ class Child:
     def __init__(self, color_genes, food_cache_genes):
         self.color_genes = color_genes
         self.food_cache_genes = food_cache_genes
-        self.__survive = True    
+        self.__survive = True  
+        self.generation = 0 
     
     def get_survive(self):
         return self.__survive
@@ -151,15 +158,19 @@ class Child:
         elif 'C' in self.color_genes and environment.get_terrain() == 'grassy':
             self.twenty_five_percent_chance()
         elif self.color_genes == 'cc' and environment.get_terrain() == 'grassy':
-            self.fifty_fifty_chance()    
+            self.fifty_fifty_chance()   
+
+    def mature(self):
+        return Mouse(self.generation + 1) 
 
 
 
 class Mouse(Child):
-    def __init__(self, color_genes, food_cache_genes):
+    def __init__(self, color_genes, food_cache_genes, generation):
         self.color_genes = color_genes
         self.food_cache_genes = food_cache_genes
         self.__survive = True
+        self.generation = generation
 
     def get_survive(self):
         return self.__survive    
@@ -205,7 +216,7 @@ class Mouse(Child):
         return color_gene, food_gene  
 
     def generate_child(self, environment):
-        eligible_mice = [mouse for mouse in environment.get_mice() if not isinstance(mouse, Child)]
+        eligible_mice = [mouse for mouse in environment.get_mice() if isinstance(mouse, Mouse)]
         if len(eligible_mice) < 2:
             return None  # not enough eligible mice to produce a child
         parent1, parent2 = random.sample(eligible_mice, 2)
@@ -216,6 +227,9 @@ class Mouse(Child):
         child_color_genes = [color_gene1, color_gene2]
         child_food_genes = [food_gene1, food_gene2]
         return Child(child_color_genes, child_food_genes)
+    
+    def mature(self):
+        return Mouse(self.color_genes, self.food_cache_genes, self.generation + 1)
 
 
 def main():
