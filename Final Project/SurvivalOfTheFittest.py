@@ -62,6 +62,7 @@ class Environment:
         for mouse in self.get_mice():
             if not isinstance(mouse, Child):
                 adult_mice.append(mouse)
+        print(adult_mice)
         for mouse in range(0, len(adult_mice), 2):
             num_children = random.randint(6, 8)
             for _ in range(num_children):
@@ -161,7 +162,8 @@ class Child:
             self.fifty_fifty_chance()   
 
     def mature(self):
-        return Mouse(self.generation + 1) 
+        self.generation + 1
+        
 
 
 
